@@ -13,6 +13,9 @@ var stageEl = document.querySelector("#stage"); // получили DOM элем
 stageEl.style.height = game.height + "px"; // задание высоты DOM элеммента в px
 stageEl.style.width = game.width + "px"; // задание ширины DOM элеммента в px
 
+var snowflakes = []; //запись массива из снежинок в переменную
+var fires = []; //запись массива из огоньков в переменную
+
 // библиотека
 function intersect(object1, object2) {
   // проверка пересечения двух объектов (имеют ли они одинаковые координаты)
@@ -98,12 +101,12 @@ function getRandomXY(check) {
   y = intY;
   var x = intX * delta - 64;
   var y = intY * delta - 64;
-  for (var i = 0; i < fires; i++) {
+  for (var i = 0; i < fires.length; i++) {
     if (fires[i].x === x && fires[i].y === y) {
       return getRandomXY(++check);
     }
   }
-  for (var i = 0; i < snowflakes; i++) {
+  for (var i = 0; i < snowflakes.length; i++) {
     if (snowflakes[i].x === x && snowflakes[i].y === y) {
       return getRandomXY(++check);
     }
@@ -113,34 +116,6 @@ function getRandomXY(check) {
   }
   return { x: x, y: y };
 }
-/*function getRandomXY(count) {
-	if (!count) {
-		count = 1
-	}
-	if (count > (8 * 6) / 2) {
-		console.log('full stack');
-		return [10 * delta - 64, 2 * delta - 64];
-	}
-	var x = Math.floor(Math.random() * 8) + 1;
-	x = x * delta - 64;
-	var y = Math.floor(Math.random() * 6) + 1;
-	y = y * delta - 64;
-	for (var i = 0; i < fires; i++) {
-		if ((fires[i].x === x) && (fires[i].y === y)) {
-			return getRandomXY(++count);
-		}
-	}
-	for (var i = 0; i < snowflakes; i++) {
-		if ((snowflakes[i].x === x) && (snowflakes[i].y === y)) {
-			return getRandomXY(++count);
-		}
-	}
-	if ((square.x === x) && (square.y === y)) {
-		return getRandomXY(++count);
-	}
-	console.log([x, y]);
-	return [x, y];
-}*/
 
 function createRandomSnowflake() {
   // добавление снежинки в случайном месте
@@ -248,9 +223,8 @@ var lives = 1;
 var livesEl = document.querySelector(".lives");
 var square = createSquare("#square", 64, 64, 50, "red", 50); //запись в переменную функции добавления колпачка
 square.draw(); //отрисовка колпачка
-var snowflakes = []; //запись массива из снежинок в переменную
 snowflakes.push(createRandomSnowflake()); //добавление снежинок
-var fires = []; //запись массива из огоньков в переменную
+
 fires.push(createRandomFire()); //добавление огонька
 
 stageEl.onclick = function (e) {
