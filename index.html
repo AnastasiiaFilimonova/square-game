@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+	<div class="helpName">
+		<div id="timer">
+			Время: <span></span>
+		</div>
+		<h4>СПАСЕНИЕ СНЕГОВИКА</h4>
+		<div id="settings">
+			Имя: <span></span>
+		</div>
+	</div>
+	<div style="text-align: center" id="popupWin" class="windowEnd">
+		<h2> КОНЕЦ ИГРЫ!!! </h2>
+		<div class="btnWrapper">
+			<a href="index.html"><button class="button-end">ПРОДОЛЖИТЬ</button></a>
+			<a href="index2.html"><button class="button-end">ПЕРЕЙТИ К СТАТИТСТИКЕ</button></a>
+		</div>
+	</div>
+	<div class="stage-wrapper">
+		<div id="stage">
+			<div id="square">
+				<img src="kolpak.png" alt="">
+			</div>
+
+		</div>
+		<div class="container-button">
+			<!--<div>
+				<button class="button-up" width="10" height="10">&#9650</button>
+			</div>
+			<div>
+				<button class="button-left" width="10" height="10">&#9668</button>
+				<button class="button-right" width="10" height="10">&#9658</button>
+			</div>
+			<div>
+				<button class="button-down" width="10" height="10">&#9660</button>
+			</div>
+			-->
+			<div class="info">
+				<img src="heart-live.png" alt="" class="heart">
+				<div class="counter">
+					0
+				</div>
+				<div class="lives">
+					1
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	<script src="store.js"></script>
+	<script src="script.js"></script>
+</body>
+</html>
