@@ -2,11 +2,13 @@
 var snowflakeCount = 1; // счетчик снежинок
 var fireCount = 1; //счетчик огоньков
 
+//МОБ. версия и десктоп
+
 var delta = 128; // размер клетки по гориз. и вертикиле
 var game = {
   // размер поля, кол-во клеток
-  width: 8 * delta,
-  height: 6 * delta,
+  width: 8 * delta,     //МОБ. версия и десктоп
+  height: 6 * delta,     //МОБ. версия и десктоп
   active: true,
 };
 var stageEl = document.querySelector("#stage"); // получили DOM элеммент
@@ -91,6 +93,7 @@ function createSquare(selector, x, y, size, color, radius) {
   return s;
 }
 
+//МОБ. версия и десктоп
 function getRandomXY(check) {
   if (check > (8 * 6) / 2) {
     return [10, 2];
@@ -147,6 +150,7 @@ function createSnowflake(numberSf, x, y) {
     s.el.style.top = s.y + "px";
   };
 
+  //МОБ. версия и десктоп
   s.melt = function () {
     // функция перемещения снежинки
     s.x = delta * 10;
@@ -205,6 +209,7 @@ function createFire(numberF, x, y) {
     s.el.style.top = s.y + "px";
   };
 
+  //МОБ. версия и десктоп
   s.goOut = function () {
     // функция перемещения огонька
     s.x = delta * 10;
@@ -221,6 +226,8 @@ var count = 0; //счетчик=0
 var countEl = document.querySelector(".counter"); //получение счетчика по классу .counter
 var lives = 1;
 var livesEl = document.querySelector(".lives");
+
+//МОБ. версия и десктоп
 var square = createSquare("#square", 64, 64, 50, "red", 50); //запись в переменную функции добавления колпачка
 square.draw(); //отрисовка колпачка
 snowflakes.push(createRandomSnowflake()); //добавление снежинок
@@ -257,6 +264,8 @@ btnRightEl.onclick = function (e) {
 	square.draw();
 }
 */
+
+//МОБ. версия и десктоп
 document.onkeydown = function (e) {
   //обработчик нажатия на клавишу
   console.log(e);
@@ -339,6 +348,7 @@ function showWin() {
     count: `${count}`,
     time: formatDate(new Date()),
   });
+  //МОБ. версия и десктоп
   updateStore();
   var darkLayer = document.createElement("div"); // слой затемнения
   darkLayer.id = "shadow"; // id чтобы подхватить стиль
