@@ -1,3 +1,10 @@
+if(window.innerWidth >= 1000 && TYPE === 'mobile') {
+  location.href='index.html';
+}
+if(window.innerWidth < 1000 && TYPE !== 'mobile') {
+  location.href='mobile.html';
+}
+
 // настройка игры
 var snowflakeCount = 1; // счетчик снежинок
 var fireCount = 1; //счетчик огоньков

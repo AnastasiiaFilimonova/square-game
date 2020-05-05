@@ -1,7 +1,10 @@
+* {
+box-sizing: border-box;
+}
 .popup {
     position: relative;
     width: 370px;
-    height: 520px;
+    height: 700px;
     margin: 10px auto;
     background: #FFFFFF;
     padding: 10px;
@@ -11,8 +14,6 @@
 .background {
     background: #379EFE;
     position: relative;
-    width: 100%;
-    height: 100%;
 }
 .snowflake, .snowman, .fire {
     width: 50px;
@@ -21,14 +22,48 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    transform: translate(-50%, -50%);
+    transition: all 1s;
 }
 .fire {
     background-image: url(../img/fire.png);
 }
 .snowman {
     background-image: url(../img/snowman.png);
-    
+    transition: all 0.3s;
 }
 .snowflake {
     background-image: url(../img/snowflake.png);
 }
+.counter, .lives, #timer {
+    position: absolute;
+    top: 593px;
+    font-size: 30px;
+}
+
+.counter {
+    left: 92px;
+}
+.lives {
+    left: 190px;
+}
+#timer {
+    left: 290px;
+}
+/** FROM style.css */
+.windowEnd {
+    height: 220px;
+    width: 330px;
+    border: 3px outset gray;
+    background: rgba(214, 213, 211, 0.7);
+    top: 20%; /* отступ сверху */
+    right: 0;
+    left: 0;
+    font-size: 20px;
+    margin: 0 auto;
+    z-index: 2; /* поверх всех */
+    display: none; /* сначала невидим */
+    position: fixed; /* фиксированное позиционирование, окно стабильно при прокрутке */
+    padding: 30px;
+    border: 0.5px solid #383838;
+  }
