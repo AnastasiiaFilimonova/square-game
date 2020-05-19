@@ -1,8 +1,8 @@
-if(window.innerWidth >= 1000 && TYPE === 'mobile') {
-  location.href='index.html';
+if (window.innerWidth >= 1000 && TYPE === 'mobile') {
+  location.href = 'index.html';
 }
-if(window.innerWidth < 1000 && TYPE !== 'mobile') {
-  location.href='mobile.html';
+if (window.innerWidth < 1000 && TYPE !== 'mobile') {
+  location.href = 'mobile.html';
 }
 
 // настройка игры
@@ -10,31 +10,31 @@ var snowflakeCount = 1; // счетчик снежинок
 var fireCount = 1; //счетчик огоньков
 
 if (TYPE == 'mobile') {
-    var delta = 50;
-    var gameWidthCells = 7;
-    var gameHightCells = 10;
-    // TODO: изменить
-    var snowflakePlaceX = delta * 1; // snowflakePlaceX
-    var snowflakePlaceY = delta * 12; // snowflakePlaceY
-    var firePlaceX = delta * 3;
-    var firePlaceY = delta * 12;
-    var heroSelector = '.snowman'
+  var delta = 50;
+  var gameWidthCells = 7;
+  var gameHightCells = 10;
+  // TODO: изменить
+  var snowflakePlaceX = delta * 1; // snowflakePlaceX
+  var snowflakePlaceY = delta * 12; // snowflakePlaceY
+  var firePlaceX = delta * 3;
+  var firePlaceY = delta * 12;
+  var heroSelector = '.snowman'
 } else {
-    var delta = 128; // размер клетки по гориз. и вертикали
-    var gameWidthCells = 8;
-    var gameHightCells = 6;
-    var snowflakePlaceX = delta * 10;
-    var snowflakePlaceY = delta * 1;
-    var firePlaceX = delta * 10;
-    var firePlaceY = delta * 2;
-    var heroSelector = '#square'
+  var delta = 128; // размер клетки по гориз. и вертикали
+  var gameWidthCells = 8;
+  var gameHightCells = 6;
+  var snowflakePlaceX = delta * 10;
+  var snowflakePlaceY = delta * 1;
+  var firePlaceX = delta * 10;
+  var firePlaceY = delta * 2;
+  var heroSelector = '#square'
 }
 
 var game = {
-    // размер поля, кол-во клеток
-    width: gameWidthCells * delta,     //МОБ. версия и десктоп
-    height: gameHightCells * delta,     //МОБ. версия и десктоп
-    active: true,
+  // размер поля, кол-во клеток
+  width: gameWidthCells * delta,     //МОБ. версия и десктоп
+  height: gameHightCells * delta,     //МОБ. версия и десктоп
+  active: true,
 };
 
 var stageEl = document.querySelector("#stage"); // получили DOM элеммент
@@ -53,175 +53,205 @@ function intersect(object1, object2) {
   return false;
 }
 function createSquare(selector, x, y) {
-    // функция создания героя (колпачок - квадрат)
-  
-    var s = {
-      // математическая модель
-      x: x,
-      y: y,
-      el: document.querySelector(selector),
-    };
-  
-    s.draw = function () {
-      // отрисовка математической модели в DOM-элемент (синхронизация с интерфейсом)
-      s.el.style.left = s.x + "px";
-      s.el.style.top = s.y + "px";
-    };
-  
-    s.moveY = function (deltaY) {
-      // движение по y
-      if (s.y + deltaY > game.height) {
-        // предел по высоте (чтобы квадрат не выходил за сцену)
-        return false;
-      }
-      if (s.y + deltaY < 0) {
-        return false;
-      }
-      s.y += deltaY;
-    };
-  
-    s.moveX = function (deltaX) {
-      // движение по x
-      if (s.x + deltaX > game.width) {
-        // предел по ширине (чтобы квадрат не выходил за сцену)
-        return false;
-      }
-      if (s.x + deltaX < 0) {
-        return false;
-      }
-      s.x += deltaX;
-    };
-    return s;
-  }
+  // функция создания героя (колпачок - квадрат)
 
-  //МОБ. версия и десктоп
+  var s = {
+    // математическая модель
+    x: x,
+    y: y,
+    el: document.querySelector(selector),
+  };
+
+  s.draw = function () {
+    // отрисовка математической модели в DOM-элемент (синхронизация с интерфейсом)
+    s.el.style.left = s.x + "px";
+    s.el.style.top = s.y + "px";
+  };
+
+  s.moveY = function (deltaY) {
+    // движение по y
+    if (s.y + deltaY > game.height) {
+      // предел по высоте (чтобы квадрат не выходил за сцену)
+      return false;
+    }
+    if (s.y + deltaY < 0) {
+      return false;
+    }
+    s.y += deltaY;
+  };
+
+  s.moveX = function (deltaX) {
+    // движение по x
+    if (s.x + deltaX > game.width) {
+      // предел по ширине (чтобы квадрат не выходил за сцену)
+      return false;
+    }
+    if (s.x + deltaX < 0) {
+      return false;
+    }
+    s.x += deltaX;
+  };
+  return s;
+}
+
+//МОБ. версия и десктоп
 function getRandomXY(check) {
-    if (check > (gameWidthCells * gameHightCells) / 2) {
-      return [10, 2];
-    }
-    var intX = Math.floor(Math.random() * gameWidthCells) + 1;
-    var intY = Math.floor(Math.random() * gameHightCells) + 1;
-    x = intX;
-    y = intY;
-    var x = intX * delta - delta/2;
-    var y = intY * delta - delta/2;
-    for (var i = 0; i < fires.length; i++) {
-      if (fires[i].x === x && fires[i].y === y) {
-        return getRandomXY(++check);
-      }
-    }
-    for (var i = 0; i < snowflakes.length; i++) {
-      if (snowflakes[i].x === x && snowflakes[i].y === y) {
-        return getRandomXY(++check);
-      }
-    }
-    if (square.x === x && square.y === y) {
+  if (check > (gameWidthCells * gameHightCells) / 2) {
+    return [10, 2];
+  }
+  var intX = Math.floor(Math.random() * gameWidthCells) + 1;
+  var intY = Math.floor(Math.random() * gameHightCells) + 1;
+  x = intX;
+  y = intY;
+  var x = intX * delta - delta / 2;
+  var y = intY * delta - delta / 2;
+  for (var i = 0; i < fires.length; i++) {
+    if (fires[i].x === x && fires[i].y === y) {
       return getRandomXY(++check);
     }
-    return { x: x, y: y };
   }
-
-  function createRandomSnowflake() {
-    // добавление снежинки в случайном месте
-    // var x = Math.floor(Math.random() * 8) + 1;
-    // var y = Math.floor(Math.random() * 6) + 1;
-    var coords = getRandomXY();
-    return createSnowflake(snowflakeCount++, coords.x, coords.y);
-  }
-
-  function createSnowflake(numberSf, x, y) {
-    // добавление снежинки в конкретном месте
-  
-    var id = "snowflake-" + numberSf;
-    var el = document.createElement("div");
-    el.setAttribute("class", "snowflake");
-    el.setAttribute("id", id);
-    stageEl.append(el);
-  
-    var s = {
-      // математическая модель
-      x: x,
-      y: y,
-      el: el,
-    };
-  
-    s.draw = function () {
-      // функция отрисовки
-      s.el.style.left = s.x + "px";
-      s.el.style.top = s.y + "px";
-    };
-  
-    //МОБ. версия и десктоп
-    s.melt = function () {
-      // функция перемещения снежинки
-      s.x = snowflakePlaceX; // snowflakePlaceX
-      s.y = snowflakePlaceY; // snowflakePlaceY
-      s.draw();
-    };
-  
-    s.draw();
-    return s;
-  }
-
-  function updateCounter() {
-    // счетчик
-    count++;
-    if (count % 3 == 0) {
-      updateLives(1);
+  for (var i = 0; i < snowflakes.length; i++) {
+    if (snowflakes[i].x === x && snowflakes[i].y === y) {
+      return getRandomXY(++check);
     }
-    countEl.innerText = count;
   }
-  
-  function updateLives(number) {
-    lives += number;
-    livesEl.innerText = lives;
+  if (square.x === x && square.y === y) {
+    return getRandomXY(++check);
   }
+  return { x: x, y: y };
+}
 
-  function createRandomFire() {
-    //добавление огонька в случайном месте
-    // var x = Math.floor(Math.random() * 8) + 1;
-    // var y = Math.floor(Math.random() * 6) + 1;
-    var coords = getRandomXY();
-    return createFire(fireCount++, coords.x, coords.y);
-  }
+function createRandomSnowflake() {
+  // добавление снежинки в случайном месте
+  // var x = Math.floor(Math.random() * 8) + 1;
+  // var y = Math.floor(Math.random() * 6) + 1;
+  var coords = getRandomXY();
+  return createSnowflake(snowflakeCount++, coords.x, coords.y);
+}
 
-  function createFire(numberF, x, y) {
-    // добавление огонька в конкретном месте
-  
-    var id = "fire-" + numberF; //порядковый номер id огонька
-    var el = document.createElement("div"); //создание Dom узла (Document Element)
-    //<div></div>
-    el.setAttribute("class", "fire"); //добавляем класс
-    // <div class="fire"></div>
-    el.setAttribute("id", id);
-    // <div class="fire" id="fire-123"></div>
-    stageEl.append(el); //добавление на сцену
-  
-    var s = {
-      // математическая модель
-      x: x,
-      y: y,
-      el: el,
-    };
-  
-    s.draw = function () {
-      // функция отрисовки
-      s.el.style.left = s.x + "px";
-      s.el.style.top = s.y + "px";
-    };
-  
-    //МОБ. версия и десктоп
-    s.goOut = function () {
-      // функция перемещения огонька
-      s.x = firePlaceX
-      s.y = firePlaceY;
-      s.draw();
-    };
-  
+function createSnowflake(numberSf, x, y) {
+  // добавление снежинки в конкретном месте
+
+  var id = "snowflake-" + numberSf;
+  var el = document.createElement("div");
+  el.setAttribute("class", "snowflake");
+  el.setAttribute("id", id);
+  stageEl.append(el);
+
+  var s = {
+    // математическая модель
+    x: x,
+    y: y,
+    el: el,
+  };
+
+  s.draw = function () {
+    // функция отрисовки
+    s.el.style.left = s.x + "px";
+    s.el.style.top = s.y + "px";
+  };
+
+  //МОБ. версия и десктоп
+  s.melt = function () {
+    // функция перемещения снежинки
+    s.x = snowflakePlaceX; // snowflakePlaceX
+    s.y = snowflakePlaceY; // snowflakePlaceY
     s.draw();
-    return s;
+  };
+
+  s.draw();
+  return s;
+}
+
+function updateCounter() {
+  // счетчик
+  count++;
+  if (count % 3 == 0) {
+    updateLives(1);
+  }
+  countEl.innerText = count;
+}
+
+function updateLives(number) {
+  lives += number;
+  livesEl.innerText = lives;
+}
+
+function createRandomFire() {
+  //добавление огонька в случайном месте
+  // var x = Math.floor(Math.random() * 8) + 1;
+  // var y = Math.floor(Math.random() * 6) + 1;
+  var coords = getRandomXY();
+  return createFire(fireCount++, coords.x, coords.y);
+}
+
+function createFire(numberF, x, y) {
+  // добавление огонька в конкретном месте
+
+  var id = "fire-" + numberF; //порядковый номер id огонька
+  var el = document.createElement("div"); //создание Dom узла (Document Element)
+  //<div></div>
+  el.setAttribute("class", "fire"); //добавляем класс
+  // <div class="fire"></div>
+  el.setAttribute("id", id);
+  // <div class="fire" id="fire-123"></div>
+  stageEl.append(el); //добавление на сцену
+
+  var s = {
+    // математическая модель
+    x: x,
+    y: y,
+    el: el,
+  };
+
+  s.draw = function () {
+    // функция отрисовки
+    s.el.style.left = s.x + "px";
+    s.el.style.top = s.y + "px";
+  };
+
+  //МОБ. версия и десктоп
+  s.goOut = function () {
+    // функция перемещения огонька
+    s.x = firePlaceX
+    s.y = firePlaceY;
+    s.draw();
+  };
+
+  s.draw();
+  return s;
+}
+
+// проверить все пересечения со снежинками и огоньками
+function allIntersections() {
+  for (var i = 0; i < snowflakes.length; i++) {
+    //цикл снежинок
+    if (intersect(square, snowflakes[i])) {
+      //если пересечение снеговика со снежинкой
+      snowflakes[i].melt(); //снежинка исчезает с поля
+      snowflakes.push(createRandomSnowflake()); //снежинка добавляется у счетчика
+      fires.push(createRandomFire());
+      updateCounter(); //счетчик прибавляет 1
+    }
   }
 
+  for (var i = 0; i < fires.length; i++) {
+    //цикл огоньков
+    if (intersect(square, fires[i])) {
+      //если пересечение снеговика с огоньком и время прошло более 10 секунд
+      fires[i].goOut(); //огонек исчезает с поля
+      //fires.push(createRandomFire());						//огонек добавляется у счетчика
+      updateLives(-1); //обновление счетчика жизней
+      if (lives > 0) {
+        fires.push(createRandomFire());
+      } else {
+        stopGame(); //остановка игры
+        stopsetInterval(); //остановка секундомера
+        showWin();
+      }
+    }
+  }
+}
 //использование библиотеки
 var count = 0; //счетчик=0
 var countEl = document.querySelector(".counter"); //получение счетчика по классу .counter
@@ -229,7 +259,7 @@ var lives = 1;
 var livesEl = document.querySelector(".lives");
 
 //МОБ. версия и десктоп
-var square = createSquare(heroSelector, delta/2, delta/2); //запись в переменную функции добавления колпачка
+var square = createSquare(heroSelector, delta / 2, delta / 2); //запись в переменную функции добавления колпачка
 square.draw(); //отрисовка колпачка
 
 snowflakes.push(createRandomSnowflake()); //добавление снежинок
@@ -239,59 +269,32 @@ fires.push(createRandomFire()); //добавление огонька
 // ДЕСКТОП
 // TODO: мобильная версия
 document.onkeydown = function (e) {
-    //обработчик нажатия на клавишу
-    console.log(e);
-    if (!game.active) {
-      return false;
-    }
-    switch (e.code) {
-      case "ArrowUp":
-        square.moveY(-delta); //движение при нажатии клавиши по оси Y вниз
-        square.draw();
-        break;
-      case "ArrowDown":
-        square.moveY(delta); //движение при нажатии клавиши по оси Y вверх
-        square.draw();
-        break;
-      case "ArrowLeft":
-        square.moveX(-delta); //движение при нажатии клавиши по оси X влево
-        square.draw();
-        break;
-      case "ArrowRight":
-        square.moveX(delta); //движение при нажатии клавиши по оси X вправо
-        square.draw();
-        break;
-    }
-    for (var i = 0; i < snowflakes.length; i++) {
-      //цикл снежинок
-      if (intersect(square, snowflakes[i])) {
-        //если пересечение снеговика со снежинкой
-        snowflakes[i].melt(); //снежинка исчезает с поля
-        snowflakes.push(createRandomSnowflake()); //снежинка добавляется у счетчика
-        fires.push(createRandomFire());
-        updateCounter(); //счетчик прибавляет 1
-      }
-    }
-  
-    for (var i = 0; i < fires.length; i++) {
-      //цикл огоньков
-      if (intersect(square, fires[i])) {
-        //если пересечение снеговика с огоньком и время прошло более 10 секунд
-        fires[i].goOut(); //огонек исчезает с поля
-        //fires.push(createRandomFire());						//огонек добавляется у счетчика
-        updateLives(-1); //обновление счетчика жизней
-        if (lives > 0) {
-          fires.push(createRandomFire());
-        } else {
-          stopGame(); //остановка игры
-          stopsetInterval(); //остановка секундомера
-          showWin();
-        }
-      }
-    }
-  };
-
-  var num = 0; //секундомер
+  //обработчик нажатия на клавишу
+  console.log(e);
+  if (!game.active) {
+    return false;
+  }
+  switch (e.code) {
+    case "ArrowUp":
+      square.moveY(-delta); //движение при нажатии клавиши по оси Y вниз
+      square.draw();
+      break;
+    case "ArrowDown":
+      square.moveY(delta); //движение при нажатии клавиши по оси Y вверх
+      square.draw();
+      break;
+    case "ArrowLeft":
+      square.moveX(-delta); //движение при нажатии клавиши по оси X влево
+      square.draw();
+      break;
+    case "ArrowRight":
+      square.moveX(delta); //движение при нажатии клавиши по оси X вправо
+      square.draw();
+      break;
+  }
+  allIntersections();
+};
+var num = 0; //секундомер
 var timerEl = document.querySelector("#timer span");
 
 var intervalId = setInterval(function () {
@@ -360,3 +363,18 @@ function getName() {
     return "Гость";
   }
 }
+
+function getClosestNum(num) {
+  var count = Math.round(num / delta);
+  return (count * delta) - delta / 2;
+}
+
+stageEl.onclick = function (event) {
+  //при клике на сцену колпачок меняет цвет и местоположение
+  // delta 50 | 128
+  console.log(event);
+  square.x = getClosestNum(event.clientX); //перемещение по оси Х
+  square.y = getClosestNum(event.clientY); //перемещение по оси Y
+  square.draw(); //отрисовка
+  allIntersections();
+};
