@@ -1,0 +1,23 @@
+{
+  "name": "square-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Naukomania/square-game.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Naukomania/square-game/issues"
+  },
+  "homepage": "https://github.com/Naukomania/square-game#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
