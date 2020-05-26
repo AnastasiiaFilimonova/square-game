@@ -270,7 +270,7 @@ fires.push(createRandomFire()); //добавление огонька
 // TODO: мобильная версия
 document.onkeydown = function (e) {
   //обработчик нажатия на клавишу
-  console.log(e);
+  // console.log(e);
   if (!game.active) {
     return false;
   }
@@ -369,10 +369,51 @@ function getClosestNum(num) {
   return (count * delta) - delta / 2;
 }
 
+function isFireIntersected(square, target, fire) {
+  if(Math.min(square.x, target.x) > fire.x) {
+    return false;
+  }
+  if(Math.max(square.x, target.x) < fire.x) {
+    return false;
+  }
+  if(Math.min(square.y, target.y) > fire.y) {
+    return false;
+  }
+  if(Math.max(square.y, target.y) < fire.y) {
+    return false;
+  }
+  return true;
+}
+
+function firePathIntersections(square, target, fires) {
+  for (var i=0; i<fires.length; i++){
+    if (isFireIntersected(square, target, fires[i])){
+      fires[i].goOut(); //огонек исчезает с поля
+      //fires.push(createRandomFire());						//огонек добавляется у счетчика
+      updateLives(-1); //обновление счетчика жизней
+      if (lives > 0) {
+        fires.push(createRandomFire());
+      } else {
+        stopGame(); //остановка игры
+        stopsetInterval(); //остановка секундомера
+        showWin();
+      }
+      console.log('fire');
+    }
+  }
+  console.log('--------');
+}
+
 stageEl.onclick = function (event) {
   //при клике на сцену колпачок меняет цвет и местоположение
   // delta 50 | 128
-  console.log(event);
+  // console.log(event);
+
+  firePathIntersections(square, {
+    x: getClosestNum(event.clientX),
+    y: getClosestNum(event.clientY)
+  }, fires);
+
   square.x = getClosestNum(event.clientX); //перемещение по оси Х
   square.y = getClosestNum(event.clientY); //перемещение по оси Y
   square.draw(); //отрисовка
