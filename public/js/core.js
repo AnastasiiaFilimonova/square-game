@@ -1,15 +1,15 @@
-if (window.innerWidth >= 1000 && TYPE === 'mobile') {
-  location.href = 'index.html';
+if (window.innerWidth >= 1000 && TYPE === "mobile") {
+  location.href = "index.html";
 }
-if (window.innerWidth < 1000 && TYPE !== 'mobile') {
-  location.href = 'mobile.html';
+if (window.innerWidth < 1000 && TYPE !== "mobile") {
+  location.href = "mobile.html";
 }
 
 // настройка игры
 var snowflakeCount = 1; // счетчик снежинок
 var fireCount = 1; //счетчик огоньков
 
-if (TYPE == 'mobile') {
+if (TYPE == "mobile") {
   var delta = 50;
   var gameWidthCells = 7;
   var gameHightCells = 10;
@@ -18,7 +18,7 @@ if (TYPE == 'mobile') {
   var snowflakePlaceY = delta * 12; // snowflakePlaceY
   var firePlaceX = delta * 3;
   var firePlaceY = delta * 12;
-  var heroSelector = '.snowman'
+  var heroSelector = ".snowman";
 } else {
   var delta = 128; // размер клетки по гориз. и вертикали
   var gameWidthCells = 8;
@@ -27,13 +27,13 @@ if (TYPE == 'mobile') {
   var snowflakePlaceY = delta * 1;
   var firePlaceX = delta * 10;
   var firePlaceY = delta * 2;
-  var heroSelector = '#square'
+  var heroSelector = "#square";
 }
 
 var game = {
   // размер поля, кол-во клеток
-  width: gameWidthCells * delta,     //МОБ. версия и десктоп
-  height: gameHightCells * delta,     //МОБ. версия и десктоп
+  width: gameWidthCells * delta, //МОБ. версия и десктоп
+  height: gameHightCells * delta, //МОБ. версия и десктоп
   active: true,
 };
 
@@ -213,7 +213,7 @@ function createFire(numberF, x, y) {
   //МОБ. версия и десктоп
   s.goOut = function () {
     // функция перемещения огонька
-    s.x = firePlaceX
+    s.x = firePlaceX;
     s.y = firePlaceY;
     s.draw();
   };
@@ -366,28 +366,41 @@ function getName() {
 
 function getClosestNum(num) {
   var count = Math.round(num / delta);
-  return (count * delta) - delta / 2;
+  return count * delta - delta / 2;
 }
 
 function isFireIntersected(square, target, fire) {
-  if(Math.min(square.x, target.x) > fire.x) {
+  if (Math.min(square.x, target.x) > fire.x) {
     return false;
   }
-  if(Math.max(square.x, target.x) < fire.x) {
+  if (Math.max(square.x, target.x) < fire.x) {
     return false;
   }
-  if(Math.min(square.y, target.y) > fire.y) {
+  if (Math.min(square.y, target.y) > fire.y) {
     return false;
   }
-  if(Math.max(square.y, target.y) < fire.y) {
+  if (Math.max(square.y, target.y) < fire.y) {
     return false;
   }
-  return true;
+  const distance =
+    Math.abs(
+      (target.y - square.y) * fire.x -
+        (target.x - square.x) * fire.y +
+        target.x * square.y -
+        square.x * target.y
+    ) /
+    Math.sqrt(
+      Math.pow(target.y - square.y, 2) + Math.pow(target.x - square.x, 2)
+    );
+  if (distance < delta / 2) {
+    return true;
+  }
+  return false;
 }
 
 function firePathIntersections(square, target, fires) {
-  for (var i=0; i<fires.length; i++){
-    if (isFireIntersected(square, target, fires[i])){
+  for (var i = 0; i < fires.length; i++) {
+    if (isFireIntersected(square, target, fires[i])) {
       fires[i].goOut(); //огонек исчезает с поля
       //fires.push(createRandomFire());						//огонек добавляется у счетчика
       updateLives(-1); //обновление счетчика жизней
@@ -398,10 +411,10 @@ function firePathIntersections(square, target, fires) {
         stopsetInterval(); //остановка секундомера
         showWin();
       }
-      console.log('fire');
+      console.log("fire");
     }
   }
-  console.log('--------');
+  console.log("--------");
 }
 
 stageEl.onclick = function (event) {
@@ -409,10 +422,14 @@ stageEl.onclick = function (event) {
   // delta 50 | 128
   // console.log(event);
 
-  firePathIntersections(square, {
-    x: getClosestNum(event.clientX),
-    y: getClosestNum(event.clientY)
-  }, fires);
+  firePathIntersections(
+    square,
+    {
+      x: getClosestNum(event.clientX),
+      y: getClosestNum(event.clientY),
+    },
+    fires
+  );
 
   square.x = getClosestNum(event.clientX); //перемещение по оси Х
   square.y = getClosestNum(event.clientY); //перемещение по оси Y
