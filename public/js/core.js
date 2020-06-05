@@ -1,7 +1,7 @@
-if (window.innerWidth >= 1000 && TYPE === "mobile") {
+if (screen.width >= 1200 && TYPE === "mobile") {
   location.href = "index.html";
 }
-if (window.innerWidth < 1000 && TYPE !== "mobile") {
+if (screen.width < 1200 && TYPE !== "mobile") {
   location.href = "mobile.html";
 }
 
@@ -364,9 +364,9 @@ function getName() {
   }
 }
 
-function getClosestNum(num) {
-  var count = Math.round(num / delta);
-  return count * delta - delta / 2;
+function getClosestNum(num) { // 71
+  var count = Math.round((num - delta / 2) / delta); // нам нужно идти на 1 вправо
+  return count * delta + delta / 2;
 }
 
 function isFireIntersected(square, target, fire) {
@@ -421,18 +421,19 @@ stageEl.onclick = function (event) {
   //при клике на сцену колпачок меняет цвет и местоположение
   // delta 50 | 128
   // console.log(event);
-
+  var stageX = stageEl.getBoundingClientRect().x;
+  var stageY = stageEl.getBoundingClientRect().y;
   firePathIntersections(
     square,
     {
-      x: getClosestNum(event.clientX),
-      y: getClosestNum(event.clientY),
+      x: getClosestNum(event.clientX - stageX),
+      y: getClosestNum(event.clientY - stageY),
     },
     fires
   );
 
-  square.x = getClosestNum(event.clientX); //перемещение по оси Х
-  square.y = getClosestNum(event.clientY); //перемещение по оси Y
+  square.x = getClosestNum(event.clientX - stageX); //перемещение по оси Х
+  square.y = getClosestNum(event.clientY - stageY); //перемещение по оси Y
   square.draw(); //отрисовка
   allIntersections();
 };
