@@ -43,12 +43,24 @@ box-sizing: border-box;
 
 .counter {
     left: 92px;
+    transform: translateY(-30%);
 }
 .lives {
     left: 190px;
+    transform: translateY(-30%);
 }
 #timer {
     left: 290px;
+    opacity: 0.5;
+    font-size: 50px;
+    font-weight: 700;
+    color: white;
+    text-shadow: 1px 2px 3px black;
+    
+}
+#settings .name {
+    right: 0;
+    position: absolute;
 }
 /** FROM style.css */
 .windowEnd {

@@ -9,15 +9,45 @@ if (screen.width < 1200 && TYPE !== "mobile") {
 var snowflakeCount = 1; // счетчик снежинок
 var fireCount = 1; //счетчик огоньков
 
+var popupEl = document.querySelector('.popup');
+var counterEl = document.querySelector('.counter');
+var livesEl = document.querySelector('.lives');
+var timerWripperEl = document.querySelector('#timer');
+var nameEl = document.querySelector("#settings .name");
+
 if (TYPE == "mobile") {
-  var delta = 50;
+  var padding = 5;
+  var bottomReserve = 100;
+
   var gameWidthCells = 7;
-  var gameHightCells = 10;
+
+  var delta = Math.floor((screen.width-padding * 2)/(gameWidthCells*10))*10; // 50 ширина клетки
+  var popupWidth = delta*gameWidthCells+padding * 2;  // ширина сцены - попапа
+  var gameHightCells = Math.floor((screen.height - padding*2 - bottomReserve)/delta); // 10 количество клеток по высоте
+  var popupHeight = delta*gameHightCells+padding*2; // высота сцены - попапа
+
+  popupEl.style.width=popupWidth+'px';
+  popupEl.style.height=popupHeight+'px';
+
   // TODO: изменить
-  var snowflakePlaceX = delta * 1; // snowflakePlaceX
-  var snowflakePlaceY = delta * 12; // snowflakePlaceY
-  var firePlaceX = delta * 3;
-  var firePlaceY = delta * 12;
+  var snowflakePlaceX = delta / 2; // snowflakePlaceX
+  var snowflakePlaceY = popupHeight + delta / 2; // 12 // snowflakePlaceY
+
+  counterEl.style.left = snowflakePlaceX + 45 + 'px';
+  counterEl.style.top = snowflakePlaceY + 'px';
+
+  var firePlaceX = delta * 2;
+  var firePlaceY = popupHeight + delta / 2;
+
+  livesEl.style.left = firePlaceX + 45 + 'px';
+  livesEl.style.top = firePlaceY + 'px';
+
+  timerWripperEl.style.left = delta*gameWidthCells - delta + 'px';
+  timerWripperEl.style.top = delta/2 + 'px';
+
+  nameEl.style.top = popupHeight + delta/2 + 'px';
+  nameEl.style.right = delta/2 + 'px';
+
   var heroSelector = ".snowman";
 } else {
   var delta = 128; // размер клетки по гориз. и вертикали
