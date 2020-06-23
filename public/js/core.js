@@ -14,6 +14,7 @@ var counterEl = document.querySelector('.counter');
 var livesEl = document.querySelector('.lives');
 var timerWripperEl = document.querySelector('#timer');
 var nameEl = document.querySelector("#settings .name");
+var stageEl = document.querySelector("#stage"); // получили DOM элеммент
 
 if (TYPE == "mobile") {
   var padding = 5;
@@ -50,13 +51,37 @@ if (TYPE == "mobile") {
 
   var heroSelector = ".snowman";
 } else {
-  var delta = 128; // размер клетки по гориз. и вертикали
-  var gameWidthCells = 8;
-  var gameHightCells = 6;
-  var snowflakePlaceX = delta * 10;
-  var snowflakePlaceY = delta * 1;
-  var firePlaceX = delta * 10;
-  var firePlaceY = delta * 2;
+  var heartEl = document.querySelector('.heart');
+
+  var padding = 15;
+  var rightReserve = 250;
+  var topReserve = 128;
+
+  var gameWidthCells = 10;
+  var delta =  Math.floor((window.innerWidth - padding*2 - rightReserve)/(gameWidthCells*10))*10; // размер клетки по гориз. и вертикали
+  var popupWidth = delta*gameWidthCells+padding * 2;  // ширина сцены - попапа
+  var gameHightCells = Math.floor((window.innerHeight - padding*2-topReserve)/delta); // 10 количество клеток по высоте
+  var popupHeight = delta*gameHightCells+padding*2; // высота сцены - попапа
+
+  popupEl.style.width=popupWidth+'px';
+  popupEl.style.height=popupHeight+'px';
+  stageEl.style.backgroundSize=delta+'px';
+
+  var snowflakePlaceX = popupWidth+delta / 2; // snowflakePlaceX
+  var snowflakePlaceY = delta / 2; // 12 // snowflakePlaceY
+
+  counterEl.style.left = snowflakePlaceX + 100 + 'px';
+  counterEl.style.top = snowflakePlaceY - 30 + 'px';
+
+  var firePlaceX = snowflakePlaceX;
+  var firePlaceY = snowflakePlaceY + delta;
+
+  livesEl.style.left = firePlaceX + 100 + 'px';
+  livesEl.style.top = firePlaceY - 30 + 'px';
+
+  heartEl.style.left = firePlaceX + 'px';
+  heartEl.style.top = firePlaceY + 'px';
+
   var heroSelector = "#square";
 }
 
@@ -67,7 +92,6 @@ var game = {
   active: true,
 };
 
-var stageEl = document.querySelector("#stage"); // получили DOM элеммент
 stageEl.style.height = game.height + "px"; // задание высоты DOM элеммента в px
 stageEl.style.width = game.width + "px"; // задание ширины DOM элеммента в px
 

@@ -17,6 +17,7 @@ body {
 }
 .stage-wrapper {
   display: flex;
+  position: relative;
 }
 #stage {
   position: relative;
@@ -84,14 +85,12 @@ body {
 .counter,
 .lives {
   font-size: 55px;
-  margin-left: 368px;
-  margin-top: 49px;
+  position: absolute;
 }
 .heart {
   width: 97px;
   position: absolute;
-  left: 1257px;
-  top: 600px;
+  transform: translate(-30%, -50%);
 }
 .windowEnd {
   height: 220px;
