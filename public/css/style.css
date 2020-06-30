@@ -55,6 +55,10 @@ body {
   height: 100px;
   background-size: cover;
 }
+.fire.completed{
+  opacity: 0;
+}
+
 #square img {
   width: 150%;
   position: absolute;
@@ -92,21 +96,32 @@ body {
   position: absolute;
   transform: translate(-30%, -50%);
 }
+
+.background-layer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(158, 193, 194, 0.5);
+  display: none;
+
+}
 .windowEnd {
   height: 220px;
   width: 400px;
   border: 3px outset gray;
   background: rgba(214, 213, 211, 0.904);
-  top: 20%; /* отступ сверху */
-  right: 0;
-  left: 0;
   font-size: 30px;
-  margin: 0 auto;
+  top: 50%;
+  transform: translate(-50%, -50%);
   z-index: 2; /* поверх всех */
-  display: none; /* сначала невидим */
+  left: -100%;
+  transition: 1s;
   position: fixed; /* фиксированное позиционирование, окно стабильно при прокрутке */
   padding: 30px;
   border: 0.5px solid #383838;
+  text-align: center;
 }
 #shadow {
   /*затемнение экрана*/

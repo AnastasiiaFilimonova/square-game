@@ -8,7 +8,7 @@ if (screen.width < 1200 && TYPE !== "mobile") {
 // настройка игры
 var snowflakeCount = 1; // счетчик снежинок
 var fireCount = 1; //счетчик огоньков
-
+var timeLimit = 30;
 var popupEl = document.querySelector('.popup');
 var counterEl = document.querySelector('.counter');
 var livesEl = document.querySelector('.lives');
@@ -267,6 +267,7 @@ function createFire(numberF, x, y) {
   //МОБ. версия и десктоп
   s.goOut = function () {
     // функция перемещения огонька
+    el.classList.add('completed');
     s.x = firePlaceX;
     s.y = firePlaceY;
     s.draw();
@@ -352,7 +353,7 @@ var num = 0; //секундомер
 var timerEl = document.querySelector("#timer span");
 
 var intervalId = setInterval(function () {
-  if (num >= 30) {
+  if (num >= timeLimit) {
     stopsetInterval();
     stopGame();
     showWin();
@@ -379,21 +380,26 @@ function showWin() {
   });
   //МОБ. версия и десктоп
   updateStore();
-  var darkLayer = document.createElement("div"); // слой затемнения
-  darkLayer.id = "shadow"; // id чтобы подхватить стиль
-  document.body.appendChild(darkLayer); // включаем затемнение
+
+  var layer = document.querySelector('.background-layer');
+  layer.style.display='block';
 
   var windowEnd = document.getElementById("popupWin"); // находим наше "окно"
-  windowEnd.style.display = "block"; // "включаем" его
+  windowEnd.style.left = '50%'; // "включаем" его
 
-  var btnsContinue = document.querySelectorAll(".button-end");
-  for (var i = 0; i < btnsContinue.length; i++) {
-    btnsContinue[i].onclick = function () {
-      // при клике на кнопку
-      darkLayer.parentNode.removeChild(darkLayer); // удаляем затемнение
-      windowEnd.style.display = "none"; // делаем окно невидимым
-    };
-  }
+  // var darkLayer = document.createElement("div"); // слой затемнения
+  // darkLayer.id = "shadow"; // id чтобы подхватить стиль
+  // document.body.appendChild(darkLayer); // включаем затемнение
+
+  // Часть кода, чтобы убрать задний фон
+  // var btnsContinue = document.querySelectorAll(".button-end");
+  // for (var i = 0; i < btnsContinue.length; i++) {
+  //   btnsContinue[i].onclick = function () {
+  //     // при клике на кнопку
+  //     darkLayer.parentNode.removeChild(darkLayer); // удаляем затемнение
+  //     windowEnd.style.display = "none"; // делаем окно невидимым
+  //   };
+  // }
 }
 
 var name = getName();
@@ -472,7 +478,10 @@ function firePathIntersections(square, target, fires) {
 }
 
 stageEl.onclick = function (event) {
-  //при клике на сцену колпачок меняет цвет и местоположение
+  if (!game.active) {
+    return false;
+  } 
+  // при клике на сцену колпачок меняет местоположение
   // delta 50 | 128
   // console.log(event);
   var stageX = stageEl.getBoundingClientRect().x;

@@ -63,19 +63,29 @@ box-sizing: border-box;
     position: absolute;
 }
 /** FROM style.css */
-.windowEnd {
-    height: 220px;
-    width: 330px;
-    border: 3px outset gray;
-    background: rgba(214, 213, 211, 0.7);
-    top: 20%; /* отступ сверху */
+.background-layer {
+    position: fixed;
+    top: 0;
     right: 0;
     left: 0;
+    bottom: 0;
+    background-color: rgba(158, 193, 194, 0.5);
+    display: none;
+  
+  }
+  .windowEnd {
+    height: 200px;
+    width: 300px;
+    border: 3px outset gray;
+    background: rgba(214, 213, 211, 0.904);
     font-size: 20px;
-    margin: 0 auto;
+    top: 50%;
+    transform: translate(-50%, -50%);
     z-index: 2; /* поверх всех */
-    display: none; /* сначала невидим */
+    left: -100%;
+    transition: 1s;
     position: fixed; /* фиксированное позиционирование, окно стабильно при прокрутке */
-    padding: 30px;
+    padding: 10px;
     border: 0.5px solid #383838;
+    text-align: center;
   }
